@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 
 import './AddTicketButton.css';
 
-function AddTicketButton() {
+function AddTicketButton({ createTicketHandler }) {
   const [open, setOpen] = useState(false);
 
   const toggleState = () => {
     if (open) {
       setOpen(false);
       console.log(open);
+      createTicketHandler();
     }
     else {
       setOpen(true);
