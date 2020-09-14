@@ -57,16 +57,16 @@ function Board() {
     tickets: []
   });
 
-  const updateBoard = (name, tickets) => {
-    const newBoard = { ...board, ...{ name, tickets } };
-    setBoard(newBoard);
-  };
-
   const { loading, error, data } = useQuery(GET_BOARD, {
     variables: { id: board.id },
     pollInterval: 500,
   });
   const [createTicket, { data: mutationData }] = useMutation(CREATE_TICKET);
+
+  const updateBoard = (name, tickets) => {
+    const newBoard = { ...board, ...{ name, tickets } };
+    setBoard(newBoard);
+  };
 
   useEffect(() => {
     if (data) {
@@ -76,11 +76,10 @@ function Board() {
   }, [data]);
 
   const createTicketHandler = async () => {
-    const res = await createTicket({
+    await createTicket({
       variables: { boardId: board.id },
       refetchQueries: [{ query: GET_BOARD, variables: { id: board.id } }]
     });
-    console.log(res);
   };
 
   if (loading) {
