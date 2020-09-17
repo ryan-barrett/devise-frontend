@@ -19,7 +19,7 @@ function AddTicketButton({ createTicketHandler }) {
 
   return (
     <div className="button-container">
-      <button className="new-ticket-button" onClick={toggleState}>Add</button>
+      <button className="new-ticket-button" onClick={createTicketHandler}>Add</button>
     </div>
   );
 }
