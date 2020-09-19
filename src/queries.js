@@ -20,10 +20,10 @@ export const CREATE_TICKET = gql`
     mutation CreateTicket(
         $boardId: String!,
         $estimate: String,
-        $title: String,
+        $title: String!,
         $description: String,
-        $user: String,
-        $status: String
+        $user: String!,
+        $status: String!
     ) {
         createTicket(input: {
             title: $title,
