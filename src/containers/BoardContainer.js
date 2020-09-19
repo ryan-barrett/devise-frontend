@@ -18,20 +18,19 @@ function BoardContainer({ boardId }) {
   const { loading, error, data } = useQuery(GET_BOARD, boardQuery);
   const [createTicket] = useMutation(CREATE_TICKET);
 
-  const createTicketHandler = async () => {
-    const ticket = { // TODO: use real ticket
-      id: 'temp_id',
-      title: 'first ticket2',
+  const createTicketHandler = async ({ title, description, estimate, assignee }) => {
+    const ticket = {
       status: 'todo',
-      description: 'test description',
-      estimate: 1,
-      user: '3f1ec9c1-85f6-4604-93c2-bfeedb0356ac1'
+      title,
+      description,
+      estimate,
+      user: '3f1ec9c1-85f6-4604-93c2-bfeedb0356ac1', // TODO: use real user
+      boardId
     };
-    const { title, status, description, estimate, user } = ticket;
     let newTicketData;
     try {
       newTicketData = await createTicket({
-        variables: { boardId: boardId, title, status, description, estimate, user },
+        variables: { ...ticket },
       });
     }
     catch (error) {

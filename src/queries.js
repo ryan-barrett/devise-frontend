@@ -19,7 +19,7 @@ export const GET_BOARD = gql`
 export const CREATE_TICKET = gql`
     mutation CreateTicket(
         $boardId: String!,
-        $estimate: Int,
+        $estimate: String,
         $title: String,
         $description: String,
         $user: String,
@@ -30,7 +30,7 @@ export const CREATE_TICKET = gql`
             status: $status,
             description: $description,
             estimate: $estimate,
-            board: $boardId,
+            boardId: $boardId,
             user: $user
         }){
             id,
