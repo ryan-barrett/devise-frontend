@@ -2,9 +2,13 @@ import React from 'react';
 
 import './Ticket.css';
 
-function Ticket({ title, estimate, description, assignee }) {
+function Ticket({ id, title, estimate, description, assignee }) {
+  const onDragStart = (event, id) => {
+    event.dataTransfer.setData('id', id);
+  };
   return (
-    <div className="ticket-container">
+    <div onDragStart={(e) => onDragStart(e, id)} className="ticket-container"
+         draggable>
       <span>
         <div>{estimate}</div>
         <div>{assignee}</div>

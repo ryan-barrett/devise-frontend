@@ -25,11 +25,7 @@ const customStyles = {
 };
 Modal.setAppElement('body');
 
-const ticketMapping = ({ id, title, estimate, description, assignee }) => {
-  return <Ticket key={id} title={title} description={description} estimate={estimate} assignee={assignee}/>;
-};
-
-function Board({ id, name, tickets, createTicketHandler }) {
+function Board({ id, name, tickets, createTicketHandler, updateTicketHandler }) {
   const [newTask, setNewTask] = React.useState({
     title: '',
     description: '',
@@ -88,6 +84,26 @@ function Board({ id, name, tickets, createTicketHandler }) {
     }
   };
 
+  const onDragOver = (event) => {
+    event.preventDefault();
+    console.log('DRAGGIMG');
+  };
+
+  const onDrop = (event) => {
+    console.log(event.target);
+    const newStatus = event.target.id || event.target.closest('.board-col').id;
+    const ticketId = event.dataTransfer.getData('id');
+    const ticketIndex = tickets.findIndex((ticket) => ticket.id === ticketId);
+    const ticket = tickets[ticketIndex];
+
+    const newTicket = { ...ticket, status: newStatus };
+    updateTicketHandler(newTicket, ticketIndex);
+  };
+
+  const ticketMapping = ({ id, title, estimate, description, assignee, status }) => {
+    return <Ticket key={id} id={id} title={title} description={description} estimate={estimate} assignee={assignee}/>;
+  };
+
   const todo = [];
   const inProgress = [];
   const done = [];
@@ -117,16 +133,19 @@ function Board({ id, name, tickets, createTicketHandler }) {
         {name}
       </h1>
       <div id="board">
-        <div className="board-col">
+        <div id={ticketStatusTypes.todo} className="board-col" onDrop={(e) => onDrop(e)}
+             onDragOver={(e) => onDragOver(e)}>
           <h3>To Do</h3>
           {todo.map(ticketMapping)}
           <AddTicketButton createTicketHandler={openModal}/>
         </div>
-        <div className="board-col">
+        <div id={ticketStatusTypes.inProgress} className="board-col" onDrop={(e) => onDrop(e)}
+             onDragOver={(e) => onDragOver(e)}>
           <h3>In Progress</h3>
           {inProgress.map(ticketMapping)}
         </div>
-        <div className="board-col">
+        <div id={ticketStatusTypes.done} className="board-col" onDrop={(e) => onDrop(e)}
+             onDragOver={(e) => onDragOver(e)}>
           <h3>Done</h3>
           {done.map(ticketMapping)}
         </div>

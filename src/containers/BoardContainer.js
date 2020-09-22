@@ -44,6 +44,13 @@ function BoardContainer({ boardId }) {
     setBoard(newBoard);
   };
 
+  const updateTicketHandler = async (newTicket, ticketIndex) => {
+    const newTickets = [...board.tickets];
+    newTickets.splice(ticketIndex, 1, newTicket);
+    const newBoard = { name: board.name, tickets: newTickets };
+    setBoard(newBoard);
+  };
+
   useEffect(() => {
     if (data) {
       const { getBoard: { name, tickets } } = data;
@@ -63,7 +70,8 @@ function BoardContainer({ boardId }) {
     <Board id={boardId}
            name={board.name}
            tickets={board.tickets}
-           createTicketHandler={createTicketHandler}/>
+           createTicketHandler={createTicketHandler}
+           updateTicketHandler={updateTicketHandler}/>
   );
 }
 
