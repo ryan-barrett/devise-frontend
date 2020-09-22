@@ -6,7 +6,7 @@ import BoardContainer from './containers/BoardContainer';
 function App() {
   return (
     <div className="App">
-      <BoardContainer boardId="board-4a415fbc-a0dc-4010-9b27-98914c7244a3192"/>
+      <BoardContainer boardId="board-5178f6b2-994c-47d8-bb0f-a1a778f016e9213"/>
     </div>
   );
 }

@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { useQuery, useMutation }      from '@apollo/client';
-import Board                          from '../components/Board/Board';
-import { CREATE_TICKET, GET_BOARD }   from '../queries';
+import React, { useState, useEffect }              from 'react';
+import { useQuery, useMutation }                   from '@apollo/client';
+import Board                                       from '../components/Board/Board';
+import { CREATE_TICKET, GET_BOARD, UPDATE_TICKET } from '../queries';
 
 function BoardContainer({ boardId }) {
   const [board, setBoard] = useState({
@@ -17,6 +17,7 @@ function BoardContainer({ boardId }) {
 
   const { loading, error, data } = useQuery(GET_BOARD, boardQuery);
   const [createTicket] = useMutation(CREATE_TICKET);
+  const [updateTicket] = useMutation(UPDATE_TICKET);
 
   const createTicketHandler = async ({ title, description, estimate, assignee }) => {
     const ticket = {
@@ -45,8 +46,24 @@ function BoardContainer({ boardId }) {
   };
 
   const updateTicketHandler = async (newTicket, ticketIndex) => {
+    // const { assignee: user } = newTicket;
+    const user = 'user-0b011ea2-e0ca-494d-bc5b-e65733295e70206';
+    console.log('newTicket', newTicket)
+
+    let response;
+    try {
+      response = await updateTicket({
+        variables: { ...newTicket, user, boardId },
+      });
+    }
+    catch (error) {
+      console.error('error creating new ticket');
+      return;
+    }
+
+    const { data: { updateTicket: newTicketData } } = response;
     const newTickets = [...board.tickets];
-    newTickets.splice(ticketIndex, 1, newTicket);
+    newTickets.splice(ticketIndex, 1, newTicketData);
     const newBoard = { name: board.name, tickets: newTickets };
     setBoard(newBoard);
   };

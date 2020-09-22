@@ -38,6 +38,34 @@ export const CREATE_TICKET = gql`
             status,
             description,
             estimate,
-            assignee
+            user
+        }
+    }`;
+
+export const UPDATE_TICKET = gql`
+    mutation UpdateTicket(
+        $id: String!
+        $boardId: String!,
+        $estimate: String,
+        $title: String!,
+        $description: String,
+        $user: String!,
+        $status: String!
+    ) {
+        updateTicket(input: {
+            id: $id
+            title: $title,
+            status: $status,
+            description: $description,
+            estimate: $estimate,
+            boardId: $boardId,
+            user: $user
+        }){
+            id,
+            title,
+            status,
+            description,
+            estimate,
+            user
         }
     }`;
