@@ -9,12 +9,15 @@ function Ticket({ id, title, estimate, description, assignee }) {
   return (
     <div onDragStart={(e) => onDragStart(e, id)} className="ticket-container"
          draggable>
-      <span>
-        <div>{estimate}</div>
-        <div>{assignee}</div>
-        <div>{title}</div>
-      </span>
-      <p>{description}</p>
+      {/*<p className="description">{description}</p>*/}
+      <div>
+
+        <div className="title">{title}</div>
+        <div className="ticket-bottom-row">
+          <div className="estimate">{estimate}</div>
+          <div className="assignee">{assignee}</div>
+        </div>
+      </div>
     </div>
   );
 }

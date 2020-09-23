@@ -1,6 +1,33 @@
 .ticket-container {
     list-style: none;
-    padding: 2.5rem;
-    margin: 1rem;
+    padding: 2.2rem;
+    margin: .8rem;
     border: solid;
+    height: 2rem;
+    font-size: 1.2rem;
+}
+
+.description {
+    margin-right: 20rem;
+    margin-left: .5rem;
+    width: 10rem;
+}
+
+.estimate {
+}
+
+.ticket-bottom-row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.title {
+    margin-bottom: 2rem;
+    margin-left: -3.5rem;
+    width: 10rem;
+    margin-top: -1rem;
+
+}
+
+.assignee {
 }

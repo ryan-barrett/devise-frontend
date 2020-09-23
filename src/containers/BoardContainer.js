@@ -48,7 +48,6 @@ function BoardContainer({ boardId }) {
   const updateTicketHandler = async (newTicket, ticketIndex) => {
     // const { assignee: user } = newTicket;
     const user = 'user-0b011ea2-e0ca-494d-bc5b-e65733295e70206';
-    console.log('newTicket', newTicket)
 
     let response;
     try {
