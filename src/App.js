@@ -5,9 +5,9 @@ import {
   Route,
   Link
 }                     from 'react-router-dom';
-
-import './App.css';
 import BoardContainer from './containers/BoardContainer';
+import LoginContainer from './containers/LoginContainer';
+import './App.css';
 
 function App() {
   return (
@@ -15,7 +15,7 @@ function App() {
       <Router>
         <Switch>
           <Route path="/login">
-            <div>a login page</div>
+            <LoginContainer/>
           </Route>
           <Route path="/">
             <BoardContainer boardId="board-5178f6b2-994c-47d8-bb0f-a1a778f016e9213"/>

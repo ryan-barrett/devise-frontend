@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import Modal             from 'react-modal';
 import Ticket            from '../Ticket/Ticket';
 import AddTicketButton   from '../AddTicket/AddTicketButton';
@@ -26,13 +26,13 @@ const customStyles = {
 Modal.setAppElement('body');
 
 function Board({ id, name, tickets, createTicketHandler, updateTicketHandler }) {
-  const [newTask, setNewTask] = React.useState({
+  const [newTask, setNewTask] = useState({
     title: '',
     description: '',
     estimate: null,
     assignee: '',
   });
-  const [modalIsOpen, setIsOpen] = React.useState(false);
+  const [modalIsOpen, setIsOpen] = useState(false);
   const titleInput = useRef(null);
 
   function openModal() {

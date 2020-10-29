@@ -19,7 +19,6 @@
     align-items: center;
     flex-direction: column;
     margin: 1rem;
-    /*align-items: stretch;*/
 }
 
 #add-task-form {

@@ -1,11 +1,32 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
+import React                                                           from 'react';
+import ReactDOM                                                        from 'react-dom';
+import { ApolloClient, ApolloProvider, InMemoryCache, createHttpLink } from '@apollo/client';
+import { setContext }                                                  from '@apollo/client/link/context';
 import './index.css';
-import App                                                              from './App';
-import * as serviceWorker                                               from './serviceWorker';
+import App                                                             from './App';
+import * as serviceWorker                                              from './serviceWorker';
+
+const httpLink = createHttpLink({
+  uri: 'http://localhost:8080/graphql',
+});
+
+const authLink = setContext((_, { headers }) => {
+  // get the authentication token from local storage if it exists
+  const cookies = document.cookie.split(';');
+  const authCookie = cookies.find((cookie) => cookie.includes('authorization'));
+  const token = authCookie.split('=')[1];
+
+  // return the headers to the context so httpLink can read them
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : '',
+    }
+  };
+});
 
 const client = new ApolloClient({
+  link: authLink.concat(httpLink),
   uri: 'http://localhost:8080/graphql',
   cache: new InMemoryCache()
 });
