@@ -1,9 +1,10 @@
 import React, { useState, useEffect }              from 'react';
+import { withRouter }                              from 'react-router-dom';
 import { useQuery, useMutation }                   from '@apollo/client';
 import Board                                       from '../components/Board/Board';
 import { CREATE_TICKET, GET_BOARD, UPDATE_TICKET } from '../queries';
 
-function BoardContainer({ boardId }) {
+function BoardContainer({ history, boardId }) {
   const [board, setBoard] = useState({
     name: '',
     tickets: []
@@ -16,6 +17,9 @@ function BoardContainer({ boardId }) {
   };
 
   const { loading, error, data } = useQuery(GET_BOARD, boardQuery);
+  if (error) {
+    history.push('/login');
+  }
   const [createTicket] = useMutation(CREATE_TICKET);
   const [updateTicket] = useMutation(UPDATE_TICKET);
 
@@ -91,4 +95,4 @@ function BoardContainer({ boardId }) {
   );
 }
 
-export default BoardContainer;
+export default withRouter(BoardContainer);
