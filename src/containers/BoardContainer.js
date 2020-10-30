@@ -4,7 +4,10 @@ import { useQuery, useMutation }                   from '@apollo/client';
 import Board                                       from '../components/Board/Board';
 import { CREATE_TICKET, GET_BOARD, UPDATE_TICKET } from '../queries';
 
-function BoardContainer({ history, boardId }) {
+function BoardContainer({ history, location }) {
+  const { pathname } = location;
+  const boardId = pathname.split('/')[2];
+
   const [board, setBoard] = useState({
     name: '',
     tickets: []
@@ -13,12 +16,11 @@ function BoardContainer({ history, boardId }) {
   const boardQuery = {
     variables: { id: boardId },
     fetchPolicy: 'network-only',
-    pollInterval: 10000,
   };
 
-  const { loading, error, data } = useQuery(GET_BOARD, boardQuery);
+  const { loading, error, data, startPolling, stopPolling } = useQuery(GET_BOARD, boardQuery);
   if (error) {
-    history.push('/login');
+    history.push('/boards');
   }
   const [createTicket] = useMutation(CREATE_TICKET);
   const [updateTicket] = useMutation(UPDATE_TICKET);
@@ -76,7 +78,11 @@ function BoardContainer({ history, boardId }) {
       const { getBoard: { name, tickets } } = data;
       const newBoard = { name, tickets };
       setBoard({ ...board, ...newBoard });
+      startPolling(10000);
     }
+    return function cleanup() {
+      stopPolling();
+    };
   }, [data]);
 
   if (loading) {

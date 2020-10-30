@@ -69,3 +69,15 @@ export const UPDATE_TICKET = gql`
             user
         }
     }`;
+
+export const GET_ALL_BOARDS = gql`
+    query GetBoardsByUserId(
+        $userId: String!
+    ) {
+        getBoardsByUserId(userId: $userId){
+            id,
+            name,
+            dateCreated,
+            lastUpdated
+        }
+    }`;

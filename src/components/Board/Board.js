@@ -1,15 +1,9 @@
 import React, { useRef, useState } from 'react';
-import Modal             from 'react-modal';
-import Ticket            from '../Ticket/Ticket';
-import AddTicketButton   from '../AddTicket/AddTicketButton';
-
+import Modal                       from 'react-modal';
+import { TicketStatusTypes }       from '../../enums';
+import Ticket                      from '../Ticket/Ticket';
+import AddTicketButton             from '../AddTicket/AddTicketButton';
 import './Board.css';
-
-const ticketStatusTypes = {
-  todo: 'todo',
-  inProgress: 'in progress',
-  done: 'done',
-};
 
 const customStyles = {
   content: {
@@ -86,7 +80,6 @@ function Board({ id, name, tickets, createTicketHandler, updateTicketHandler }) 
 
   const onDragOver = (event) => {
     event.preventDefault();
-    console.log('DRAGGIMG');
   };
 
   const onDrop = (event) => {
@@ -110,15 +103,15 @@ function Board({ id, name, tickets, createTicketHandler, updateTicketHandler }) 
 
   for (let i = 0; i < tickets.length; i++) {
     switch (tickets[i].status) {
-      case ticketStatusTypes.todo: {
+      case TicketStatusTypes.Todo: {
         todo.push(tickets[i]);
         break;
       }
-      case ticketStatusTypes.inProgress: {
+      case TicketStatusTypes.InProgress: {
         inProgress.push(tickets[i]);
         break;
       }
-      case ticketStatusTypes.done: {
+      case TicketStatusTypes.Done: {
         done.push(tickets[i]);
         break;
       }
@@ -133,25 +126,24 @@ function Board({ id, name, tickets, createTicketHandler, updateTicketHandler }) 
         {name}
       </h1>
       <div id="board">
-        <div id={ticketStatusTypes.todo} className="board-col" onDrop={(e) => onDrop(e)}
+        <div id={TicketStatusTypes.Todo} className="board-col" onDrop={(e) => onDrop(e)}
              onDragOver={(e) => onDragOver(e)}>
           <h3>To Do</h3>
           {todo.map(ticketMapping)}
           <AddTicketButton createTicketHandler={openModal}/>
         </div>
-        <div id={ticketStatusTypes.inProgress} className="board-col" onDrop={(e) => onDrop(e)}
+        <div id={TicketStatusTypes.InProgress} className="board-col" onDrop={(e) => onDrop(e)}
              onDragOver={(e) => onDragOver(e)}>
           <h3>In Progress</h3>
           {inProgress.map(ticketMapping)}
         </div>
-        <div id={ticketStatusTypes.done} className="board-col" onDrop={(e) => onDrop(e)}
+        <div id={TicketStatusTypes.Done} className="board-col" onDrop={(e) => onDrop(e)}
              onDragOver={(e) => onDragOver(e)}>
           <h3>Done</h3>
           {done.map(ticketMapping)}
         </div>
         <Modal
           isOpen={modalIsOpen}
-          // onAfterOpen={afterOpenModal}
           style={customStyles}
           contentLabel="Add Ticket Modal"
         >

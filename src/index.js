@@ -2,9 +2,12 @@ import React                                                           from 'rea
 import ReactDOM                                                        from 'react-dom';
 import { ApolloClient, ApolloProvider, InMemoryCache, createHttpLink } from '@apollo/client';
 import { setContext }                                                  from '@apollo/client/link/context';
-import './index.css';
 import App                                                             from './App';
 import * as serviceWorker                                              from './serviceWorker';
+import { getAuthToken }                                                from './utils';
+import './index.css';
+
+require('dotenv').config();
 
 const httpLink = createHttpLink({
   uri: 'http://localhost:8080/graphql',
@@ -12,9 +15,7 @@ const httpLink = createHttpLink({
 
 const authLink = setContext((_, { headers }) => {
   // get the authentication token from local storage if it exists
-  const cookies = document.cookie.split(';');
-  const authCookie = cookies.find((cookie) => cookie.includes('authorization'));
-  const token = authCookie.split('=')[1];
+  const token = getAuthToken();
 
   // return the headers to the context so httpLink can read them
   return {

@@ -1,8 +1,15 @@
-import React          from 'react';
-import { withRouter } from 'react-router-dom';
-import LoginForm      from '../components/LoginForm/LoginForm';
+import React            from 'react';
+import { withRouter }   from 'react-router-dom';
+import LoginForm        from '../components/LoginForm/LoginForm';
+import { getAuthToken } from '../utils';
 
 function LoginContainer({ history }) {
+  const token = getAuthToken();
+
+  if (token) {
+    history.push('/boards');
+  }
+
   const loginHandler = async (email, password) => {
     const response = await fetch('http://localhost:8080/login', {
       method: 'POST',
@@ -15,7 +22,7 @@ function LoginContainer({ history }) {
     });
     const { status } = response;
     if (status >= 200 && status < 300) {
-      history.push('/');
+      history.push('/boards');
     }
   };
 
